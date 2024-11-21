@@ -1,21 +1,33 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
 
 import ExpenseTopBar from "../components/ExpenseTopBar";
 import ExpenseItem from "../components/ExpenseItem";
 import Colors from "../constants/Colors";
+import { expenses } from "../data/expenses";
 
 const item = {
-  name: "Groceries",
+  item: "Groceries",
   date: "12/12/2021",
   amount: 18.59,
 };
 
 const RecentExpensesScreen = () => {
+  const today = new Date();
+  const lastWeek = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+  const last7DaysExpenses = expenses.filter((expense) => {
+    const expenseDate = new Date(expense.date);
+    return expenseDate >= lastWeek && expenseDate <= today;
+  });
+
   return (
     <View style={styles.container}>
       <ExpenseTopBar text={"Last 7 Days"} amount={18.59} />
       <View style={styles.expensesList}>
-       <ExpenseItem item={item}/>
+        <FlatList
+          data={last7DaysExpenses}
+          renderItem={({ item }) => <ExpenseItem item={item} />}
+        />
       </View>
     </View>
   );

@@ -12,4 +12,4 @@ export const expenses = [
     { item: "a laptop", date: "2024-10-11", amount: 199.99 },
     { item: "a desk", date: "2024-10-12", amount: 99.99 },
     { item: "a chair", date: "2024-10-13", amount: 49.99 },
-    { item: "a lamp", date: "2024-10-14", amount: 29.99 },];
+    { item: "a lamp", date: "2024-11-19", amount: 29.99 },];

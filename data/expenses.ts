@@ -1,0 +1,15 @@
+export const expenses = [
+    { item: "a book", date: "2024-10-01", amount: 10.99 },
+    { item: "a pen", date: "2024-10-02", amount: 2.99 },
+    { item: "a notebook", date: "2024-10-03", amount: 5.99 },
+    { item: "a pencil", date: "2024-10-04", amount: 1.99 },
+    { item: "a highlighter", date: "2024-10-05", amount: 3.99 },
+    { item: "a ruler", date: "2024-10-06", amount: 4.99 },
+    { item: "a stapler", date: "2024-10-07", amount: 6.99 },
+    { item: "a calculator", date: "2024-10-08", amount: 9.99 },
+    { item: "a pencil case", date: "2024-10-09", amount: 7.99 },
+    { item: "a backpack", date: "2024-10-10", amount: 19.99 },
+    { item: "a laptop", date: "2024-10-11", amount: 199.99 },
+    { item: "a desk", date: "2024-10-12", amount: 99.99 },
+    { item: "a chair", date: "2024-10-13", amount: 49.99 },
+    { item: "a lamp", date: "2024-10-14", amount: 29.99 },];

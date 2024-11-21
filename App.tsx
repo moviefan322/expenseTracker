@@ -29,10 +29,11 @@ export default function App() {
             tabBarActiveTintColor: Colors.yellow,
             tabBarStyle: { backgroundColor: Colors.purple2 },
             tabBarLabelStyle: {
-              fontSize: 14,
+              fontSize: 16,
               fontFamily: "Georgia",
-              fontWeight: 300,
+              fontWeight: 500,
             },
+            tabBarInactiveTintColor: Colors.gray,
           }}
         >
           <Tab.Screen
@@ -40,8 +41,8 @@ export default function App() {
             component={RecentExpensesScreen}
             options={{
               title: "Recent Expenses",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="home" color={color} size={size} />
+              tabBarIcon: ({ color }) => (
+                <Ionicons name="hourglass-outline" color={color} size={24} />
               ),
             }}
           />
@@ -50,8 +51,8 @@ export default function App() {
             component={AllExpensesScreen}
             options={{
               title: "All Expenses",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="home" color={color} size={size} />
+              tabBarIcon: ({ color }) => (
+                <Ionicons name="calendar" color={color} size={24} />
               ),
             }}
           />

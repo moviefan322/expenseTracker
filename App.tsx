@@ -1,20 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import "./gesture-handler";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, SafeAreaView } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { RootStackParamList } from "./types/RootStackParamList";
+
+import RecentExpensesScreen from "./screens/RecentExpensesScreen";
+import AllExpensesScreen from "./screens/AllExpensesScreen";
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <StatusBar style="light" />
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="RecentExpenses">
+          <Stack.Screen
+            name="RecentExpenses"
+            component={RecentExpensesScreen}
+          />
+          <Stack.Screen name="AllExpenses" component={AllExpensesScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "rebeccapurple", // Optional global background
   },
 });

@@ -17,64 +17,45 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const TabNavigator = () => {
-    return (
-      <Tab.Navigator
-        screenOptions={{
-          headerStyle: { backgroundColor: Colors.purple2 },
-          headerRight: () => (
-            <AddExpenseButton />
-          ),
-          headerTintColor: "white",
-          tabBarActiveTintColor: Colors.yellow,
-          tabBarStyle: { backgroundColor: Colors.purple2 },
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Georgia",
-            fontWeight: 300,
-          },
-        }}
-      >
-        <Tab.Screen
-          name="RecentExpenses"
-          component={RecentExpensesScreen}
-          options={{
-            title: "Recent Expenses",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="home" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="AllExpenses"
-          component={AllExpensesScreen}
-          options={{
-            title: "All Expenses",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="home" color={color} size={size} />
-            ),
-          }}
-        />
-      </Tab.Navigator>
-    );
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       <NavigationContainer>
-        <Stack.Navigator
+        <Tab.Navigator
           screenOptions={{
-            headerShown: false,
             headerStyle: { backgroundColor: Colors.purple2 },
+            headerRight: () => <AddExpenseButton />,
             headerTintColor: "white",
-            contentStyle: {
-              backgroundColor: Colors.purple1,
+            tabBarActiveTintColor: Colors.yellow,
+            tabBarStyle: { backgroundColor: Colors.purple2 },
+            tabBarLabelStyle: {
+              fontSize: 14,
+              fontFamily: "Georgia",
+              fontWeight: 300,
             },
           }}
         >
-          <Stack.Screen name="BottomTab" component={TabNavigator} />
-        </Stack.Navigator>
+          <Tab.Screen
+            name="RecentExpenses"
+            component={RecentExpensesScreen}
+            options={{
+              title: "Recent Expenses",
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="home" color={color} size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="AllExpenses"
+            component={AllExpensesScreen}
+            options={{
+              title: "All Expenses",
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="home" color={color} size={size} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaView>
   );

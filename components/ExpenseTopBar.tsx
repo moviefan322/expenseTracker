@@ -10,8 +10,8 @@ interface ExpenseTopBarProps {
 const ExpenseTopBar = ({ text, amount }: ExpenseTopBarProps) => {
   return (
     <View style={styles.lastDays}>
-      <Text style={styles.text}>Last 7 Days</Text>
-      <Text style={styles.amountText}>$18.59</Text>
+      <Text style={styles.text}>{text}</Text>
+      <Text style={styles.amountText}>${amount}</Text>
     </View>
   );
 };

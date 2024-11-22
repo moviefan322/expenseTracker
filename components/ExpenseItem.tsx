@@ -64,7 +64,8 @@ const styles = StyleSheet.create({
   },
   expenseAmt: {
     backgroundColor: Colors.white,
-    paddingHorizontal: 18,
+    width: 75,
+    textAlign: "center",
     paddingVertical: 12,
     borderRadius: 5,
     color: Colors.purpledark,

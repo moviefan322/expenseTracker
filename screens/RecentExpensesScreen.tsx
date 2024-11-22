@@ -19,10 +19,14 @@ const RecentExpensesScreen = () => {
     const expenseDate = new Date(expense.date);
     return expenseDate >= lastWeek && expenseDate <= today;
   });
+  const totalExpenses = last7DaysExpenses.reduce(
+    (acc, item) => acc + item.amount,
+    0
+  );
 
   return (
     <View style={styles.container}>
-      <ExpenseTopBar text={"Last 7 Days"} amount={18.59} />
+      <ExpenseTopBar text={"Last 7 Days"} amount={totalExpenses} />
       <View style={styles.expensesList}>
         <FlatList
           data={last7DaysExpenses}

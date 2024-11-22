@@ -4,6 +4,8 @@ import { StyleSheet, SafeAreaView } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import { store } from "./store/store";
+import { Provider } from "react-redux";
 import { RootStackParamList } from "./types/RootStackParamList";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -61,34 +63,36 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Group screenOptions={{ presentation: "card" }}>
-            <Stack.Screen
-              name="Tabs"
-              component={TabNavigator}
-              options={{
-                headerShown: false,
-                presentation: "card",
-                animation: "none",
-              }}
-            />
-          </Stack.Group>
-          <Stack.Group screenOptions={{ presentation: "modal" }}>
-            <Stack.Screen
-              name="EditExpense"
-              component={EditExpenseScreen}
-              options={{
-                title: "Edit Expense",
-                headerShown: false,
-                presentation: "modal",
-                gestureEnabled: true,
-                animation: "slide_from_bottom",
-              }}
-            />
-          </Stack.Group>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Group screenOptions={{ presentation: "card" }}>
+              <Stack.Screen
+                name="Tabs"
+                component={TabNavigator}
+                options={{
+                  headerShown: false,
+                  presentation: "card",
+                  animation: "none",
+                }}
+              />
+            </Stack.Group>
+            <Stack.Group screenOptions={{ presentation: "modal" }}>
+              <Stack.Screen
+                name="EditExpense"
+                component={EditExpenseScreen}
+                options={{
+                  title: "Edit Expense",
+                  headerShown: false,
+                  presentation: "modal",
+                  gestureEnabled: true,
+                  animation: "slide_from_bottom",
+                }}
+              />
+            </Stack.Group>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </SafeAreaView>
   );
 }

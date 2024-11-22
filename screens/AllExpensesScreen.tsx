@@ -1,14 +1,29 @@
 import { View, FlatList, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 
 import ExpenseTopBar from "../components/ExpenseTopBar";
 import ExpenseItem from "../components/ExpenseItem";
 import Colors from "../constants/Colors";
-import { expenses } from "../data/expenses";
+
+interface ExpenseItem {
+  id: number;
+  item: string;
+  date: string;
+  amount: number;
+}
 
 const AllExpensesScreen = () => {
+  const expenses = useSelector(
+    (state: { expenses: ExpenseItem[] }) => state.expenses
+  );
+
+  const totalExpenses = expenses.reduce((acc, item) => acc + item.amount, 0);
+
+  console.log(expenses)
+
   return (
     <View style={styles.container}>
-      <ExpenseTopBar text={"Total"} amount={18.59} />
+      <ExpenseTopBar text={"Total"} amount={totalExpenses} />
       <View style={styles.expensesList}>
         <FlatList
           data={expenses}

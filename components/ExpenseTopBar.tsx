@@ -4,7 +4,7 @@ import Colors from "../constants/Colors";
 
 interface ExpenseTopBarProps {
   text: string;
-  amount: number;
+  amount: string;
 }
 
 const ExpenseTopBar = ({ text, amount }: ExpenseTopBarProps) => {

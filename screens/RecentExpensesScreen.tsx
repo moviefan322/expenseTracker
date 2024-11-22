@@ -1,9 +1,10 @@
 import { View, FlatList, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 
 import ExpenseTopBar from "../components/ExpenseTopBar";
 import ExpenseItem from "../components/ExpenseItem";
 import Colors from "../constants/Colors";
-import { expenses } from "../data/expenses";
+import { ExpenseItem as ExpenseItemType } from "../types/ExpenseItem";
 
 const item = {
   item: "Groceries",
@@ -12,6 +13,10 @@ const item = {
 };
 
 const RecentExpensesScreen = () => {
+  const expenses = useSelector(
+    (state: { expenses: ExpenseItemType[] }) => state.expenses
+  );
+
   const today = new Date();
   const lastWeek = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
 
@@ -19,10 +24,9 @@ const RecentExpensesScreen = () => {
     const expenseDate = new Date(expense.date);
     return expenseDate >= lastWeek && expenseDate <= today;
   });
-  const totalExpenses = last7DaysExpenses.reduce(
-    (acc, item) => acc + item.amount,
-    0
-  );
+  const totalExpenses = last7DaysExpenses
+    .reduce((acc, item) => acc + item.amount, 0)
+    .toFixed(2);
 
   return (
     <View style={styles.container}>

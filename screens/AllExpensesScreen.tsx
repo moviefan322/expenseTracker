@@ -17,9 +17,11 @@ const AllExpensesScreen = () => {
     (state: { expenses: ExpenseItem[] }) => state.expenses
   );
 
-  const totalExpenses = expenses.reduce((acc, item) => acc + item.amount, 0);
+  const totalExpenses = expenses
+    .reduce((acc, item) => acc + item.amount, 0)
+    .toFixed(2);
 
-  console.log(expenses)
+  console.log(expenses);
 
   return (
     <View style={styles.container}>

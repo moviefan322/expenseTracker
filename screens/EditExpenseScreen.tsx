@@ -1,9 +1,19 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { removeExpense, updateExpense } from "../store/expenses";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../types/RootStackParamList";
 import { Ionicons } from "@expo/vector-icons";
+import { ExpenseItem } from "../types/ExpenseItem";
 
 import Colors from "../constants/Colors";
 
@@ -14,9 +24,31 @@ type NavigationProp = NativeStackNavigationProp<
 type RoutePropType = RouteProp<RootStackParamList, "EditExpense">;
 
 const EditExpenseScreen = () => {
-  const route = useRoute<RoutePropType>();
+  const dispatch = useDispatch();
   const navigation = useNavigation<NavigationProp>();
-  const { item } = route.params;
+  const route = useRoute<RoutePropType>();
+  const item: ExpenseItem = route.params.item as ExpenseItem;
+
+  const [itemName, setItemName] = useState(item.item);
+  const [amount, setAmount] = useState(item.amount.toString());
+
+  const handleUpdate = () => {
+    const updatedExpenseItem = {
+      id: item.id,
+      item: itemName,
+      amount: +amount,
+      date: item.date,
+    };
+    dispatch(
+      updateExpense({ id: item.id, updatedExpense: updatedExpenseItem })
+    );
+    navigation.goBack();
+  };
+
+  const handleDelete = () => {
+    dispatch(removeExpense({ id: item.id }));
+    navigation.goBack();
+  };
 
   return (
     <View style={styles.container}>
@@ -24,15 +56,36 @@ const EditExpenseScreen = () => {
         <Text style={styles.headerText}>Edit Expense</Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={[styles.button, { backgroundColor: Colors.purple1 }]}
+        >
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity onPress={handleUpdate} style={styles.button}>
           <Text style={styles.buttonText}>Update</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.editForm}>
+        <View style={[styles.formRow, { paddingBottom: 10 }]}>
+          <Text>Item:</Text>
+          <TextInput
+            style={styles.formInput}
+            value={itemName}
+            onChangeText={setItemName}
+          />
+        </View>
+        <View style={styles.formRow}>
+          <Text>Amount:</Text>
+          <TextInput
+            style={styles.formInput}
+            value={amount}
+            onChangeText={setAmount}
+          />
+        </View>
+      </View>
       <View style={styles.iconContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleDelete}>
           <Ionicons name="trash" size={34} color={Colors.red} />
         </TouchableOpacity>
       </View>
@@ -82,5 +135,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
+  },
+  editForm: {
+    margin: 20,
+    padding: 10,
+    backgroundColor: Colors.purplepale,
+    borderRadius: 5,
+  },
+  formRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  formInput: {
+    backgroundColor: Colors.white,
+    padding: 10,
+    borderRadius: 5,
+    width: "70%",
   },
 });

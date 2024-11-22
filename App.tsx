@@ -28,7 +28,7 @@ export default function App() {
           headerRight: () => <AddExpenseButton />,
           headerTintColor: "white",
           tabBarActiveTintColor: Colors.yellow,
-          tabBarStyle: { backgroundColor: Colors.purple2 },
+          tabBarStyle: { backgroundColor: Colors.purple2, height: 60 },
           tabBarLabelStyle: {
             fontSize: 16,
             fontFamily: "Georgia",

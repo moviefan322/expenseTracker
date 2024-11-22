@@ -1,4 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../types/RootStackParamList";
 
 import Colors from "../constants/Colors";
 
@@ -10,9 +13,23 @@ interface ExpenseItemProps {
   };
 }
 
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "EditExpense"
+>;
+
 const ExpenseItem = ({ item }: ExpenseItemProps) => {
+  const navigation = useNavigation<NavigationProp>();
+
+  const navigateToEdit = () => {
+    navigation.navigate("EditExpense", {
+        item: item,
+        currentScreen: "AllExpenses",
+    });
+  };
+
   return (
-    <View style={styles.expense}>
+    <TouchableOpacity onPress={navigateToEdit} style={styles.expense}>
       <View>
         <Text style={styles.expenseTextTop}>{item.item}</Text>
         <Text style={styles.expenseText}>{item.date}</Text>
@@ -20,7 +37,7 @@ const ExpenseItem = ({ item }: ExpenseItemProps) => {
       <View>
         <Text style={styles.expenseAmt}>${item.amount}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

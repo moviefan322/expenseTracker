@@ -42,10 +42,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingBottom: 5,
     backgroundColor: Colors.purple1,
   },
   expensesList: {
-    marginVertical: 20,
+    marginTop: 20,
     flex: 1,
   },
 });

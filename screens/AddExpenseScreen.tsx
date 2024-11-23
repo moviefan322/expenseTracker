@@ -31,16 +31,13 @@ const EditExpenseScreen = () => {
 
   const [itemName, setItemName] = useState(item.item);
   const [amount, setAmount] = useState(item.amount.toString());
-  const [year, setYear] = useState(item.date.split("-")[0]);
-  const [month, setMonth] = useState(item.date.split("-")[1]);
-  const [day, setDay] = useState(item.date.split("-")[2]);
 
   const handleUpdate = () => {
     const updatedExpenseItem = {
       id: item.id,
       item: itemName,
       amount: +amount,
-      date: `${year}-${month}-${day}`,
+      date: item.date,
     };
     dispatch(
       updateExpense({ id: item.id, updatedExpense: updatedExpenseItem })
@@ -78,35 +75,13 @@ const EditExpenseScreen = () => {
             onChangeText={setItemName}
           />
         </View>
-        <View style={[styles.formRow, { paddingBottom: 10 }]}>
+        <View style={styles.formRow}>
           <Text>Amount:</Text>
           <TextInput
             style={styles.formInput}
             value={amount}
             onChangeText={setAmount}
           />
-        </View>
-        <View style={styles.formRow}>
-          <View>
-            <Text>Date:</Text>
-          </View>
-          <View style={styles.dateRow}>
-            <TextInput
-              style={[styles.dateInput, { width: 60 }]}
-              value={year}
-              onChangeText={setYear}
-            />
-            <TextInput
-              style={styles.dateInput}
-              value={month}
-              onChangeText={setMonth}
-            />
-            <TextInput
-              style={styles.dateInput}
-              value={day}
-              onChangeText={setDay}
-            />
-          </View>
         </View>
       </View>
       <View style={styles.iconContainer}>
@@ -162,12 +137,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   editForm: {
-    width: "70%",
     margin: 20,
     padding: 10,
     backgroundColor: Colors.purplepale,
     borderRadius: 5,
-    alignSelf: "center",
   },
   formRow: {
     flexDirection: "row",
@@ -179,17 +152,5 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     width: "70%",
-  },
-  dateInput: {
-    backgroundColor: Colors.white,
-    padding: 10,
-    borderRadius: 5,
-    width: 40,
-    marginHorizontal: 5,
-  },
-  dateRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "72%",
   },
 });

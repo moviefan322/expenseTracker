@@ -13,6 +13,7 @@ import RecentExpensesScreen from "./screens/RecentExpensesScreen";
 import AllExpensesScreen from "./screens/AllExpensesScreen";
 import AddExpenseButton from "./components/AddExpenseButton";
 import EditExpenseScreen from "./screens/EditExpenseScreen";
+import AddExpenseScreen from "./screens/AddExpenseScreen";
 
 import Colors from "./constants/Colors";
 
@@ -83,6 +84,17 @@ export default function App() {
                 component={EditExpenseScreen}
                 options={{
                   title: "Edit Expense",
+                  headerShown: false,
+                  presentation: "modal",
+                  gestureEnabled: true,
+                  animation: "slide_from_bottom",
+                }}
+              />
+              <Stack.Screen
+                name="AddExpense"
+                component={AddExpenseScreen}
+                options={{
+                  title: "Add Expense",
                   headerShown: false,
                   presentation: "modal",
                   gestureEnabled: true,

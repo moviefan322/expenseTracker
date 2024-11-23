@@ -6,14 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
-import { removeExpense, updateExpense } from "../store/expenses";
+import { addExpense } from "../store/expenses";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../types/RootStackParamList";
-import { Ionicons } from "@expo/vector-icons";
-import { ExpenseItem } from "../types/ExpenseItem";
 
 import Colors from "../constants/Colors";
 
@@ -21,39 +18,33 @@ type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   "EditExpense"
 >;
-type RoutePropType = RouteProp<RootStackParamList, "EditExpense">;
 
-const EditExpenseScreen = () => {
+const AddExpenseScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation<NavigationProp>();
-  const route = useRoute<RoutePropType>();
-  const item: ExpenseItem = route.params.item as ExpenseItem;
+  const today = new Date();
 
-  const [itemName, setItemName] = useState(item.item);
-  const [amount, setAmount] = useState(item.amount.toString());
+  const [itemName, setItemName] = useState("");
+  const [amount, setAmount] = useState("");
+  const [year, setYear] = useState(today.getFullYear().toString());
+  const [month, setMonth] = useState((today.getMonth() + 1).toString());
+  const [day, setDay] = useState(today.getDate().toString());
 
-  const handleUpdate = () => {
-    const updatedExpenseItem = {
-      id: item.id,
+  const handleAdd = () => {
+    const expenseItemToAdd = {
+      id: Math.floor(Math.random() * 1000),
       item: itemName,
       amount: +amount,
-      date: item.date,
+      date: `${year}-${month}-${day}`,
     };
-    dispatch(
-      updateExpense({ id: item.id, updatedExpense: updatedExpenseItem })
-    );
-    navigation.goBack();
-  };
-
-  const handleDelete = () => {
-    dispatch(removeExpense({ id: item.id }));
+    dispatch(addExpense({ expense: expenseItemToAdd }));
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.headerTab}>
-        <Text style={styles.headerText}>Edit Expense</Text>
+        <Text style={styles.headerText}>Add Expense</Text>
       </View>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
@@ -62,8 +53,8 @@ const EditExpenseScreen = () => {
         >
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleUpdate} style={styles.button}>
-          <Text style={styles.buttonText}>Update</Text>
+        <TouchableOpacity onPress={handleAdd} style={styles.button}>
+          <Text style={styles.buttonText}>Add</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.editForm}>
@@ -75,25 +66,45 @@ const EditExpenseScreen = () => {
             onChangeText={setItemName}
           />
         </View>
-        <View style={styles.formRow}>
+        <View style={[styles.formRow, { paddingBottom: 10 }]}>
           <Text>Amount:</Text>
-          <TextInput
-            style={styles.formInput}
-            value={amount}
-            onChangeText={setAmount}
-          />
+          <View style={styles.amountInputContainer}>
+            <Text style={styles.dollarSign}>$</Text>
+            <TextInput
+              style={[styles.formInput, { paddingLeft: 3 }]}
+              value={amount}
+              onChangeText={setAmount}
+            />
+          </View>
         </View>
-      </View>
-      <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={handleDelete}>
-          <Ionicons name="trash" size={34} color={Colors.red} />
-        </TouchableOpacity>
+        <View style={styles.formRow}>
+          <View>
+            <Text>Date:</Text>
+          </View>
+          <View style={styles.dateRow}>
+            <TextInput
+              style={[styles.dateInput, { width: 60 }]}
+              value={year}
+              onChangeText={setYear}
+            />
+            <TextInput
+              style={styles.dateInput}
+              value={month}
+              onChangeText={setMonth}
+            />
+            <TextInput
+              style={styles.dateInput}
+              value={day}
+              onChangeText={setDay}
+            />
+          </View>
+        </View>
       </View>
     </View>
   );
 };
 
-export default EditExpenseScreen;
+export default AddExpenseScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -137,10 +148,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   editForm: {
+    width: "70%",
     margin: 20,
     padding: 10,
     backgroundColor: Colors.purplepale,
     borderRadius: 5,
+    alignSelf: "center",
   },
   formRow: {
     flexDirection: "row",
@@ -152,5 +165,30 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     width: "70%",
+  },
+  dateInput: {
+    backgroundColor: Colors.white,
+    padding: 10,
+    borderRadius: 5,
+    width: 40,
+    marginHorizontal: 5,
+  },
+  dateRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "72%",
+  },
+  amountInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.white,
+    borderRadius: 5,
+    paddingHorizontal: 5,
+    width: "70%",
+  },
+  dollarSign: {
+    fontSize: 16,
+    color: Colors.black,
+    paddingLeft: 5,
   },
 });

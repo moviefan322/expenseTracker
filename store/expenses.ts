@@ -1,28 +1,35 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { expenses as DummyExpenses, expenses } from "../data/expenses";
+import { storeExpense } from "../util/http";
 import { ExpenseItem } from "../types/ExpenseItem";
 
 interface AddExpensePayload {
-  expense: ExpenseItem;
+  id: string,
+  item: string;
+  amount: number;
+  date: string;
 }
 
 interface RemoveExpensePayload {
-  id: number;
+  id: string;
 }
 
 interface EditExpensePayload {
-  id: number;
+  id: string;
   updatedExpense: ExpenseItem;
 }
 
-const initialState: ExpenseItem[] = DummyExpenses;
+const initialState: ExpenseItem[] = [];
 
 const expensesSlice = createSlice({
   name: "expenses",
   initialState,
   reducers: {
     addExpense: (state, action: PayloadAction<AddExpensePayload>) => {
-      state.push(action.payload.expense);
+      state.push(action.payload);
+    },
+    setExpenses: (state, action: PayloadAction<ExpenseItem[]>) => {
+      const inverted = action.payload.reverse();
+      return inverted;
     },
     removeExpense: (state, action: PayloadAction<RemoveExpensePayload>) => {
       const index = state.findIndex(
@@ -43,6 +50,6 @@ const expensesSlice = createSlice({
   },
 });
 
-export const { addExpense, removeExpense, updateExpense } =
+export const { addExpense, removeExpense, updateExpense, setExpenses } =
   expensesSlice.actions;
 export default expensesSlice.reducer;

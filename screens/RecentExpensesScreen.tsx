@@ -1,21 +1,38 @@
+import { useState, useEffect } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setExpenses } from "../store/expenses";
+import { fetchExpenses } from "../util/http";
 
 import ExpenseTopBar from "../components/ExpenseTopBar";
 import ExpenseItem from "../components/ExpenseItem";
+import Spinner from "../components/Spinner";
+import ErrorOvleray from "../components/ErrorOverlay";
 import Colors from "../constants/Colors";
 import { ExpenseItem as ExpenseItemType } from "../types/ExpenseItem";
 
-const item = {
-  item: "Groceries",
-  date: "12/12/2021",
-  amount: 18.59,
-};
-
 const RecentExpensesScreen = () => {
+  const [isFetching, setIsFetching] = useState(true);
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
   const expenses = useSelector(
     (state: { expenses: ExpenseItemType[] }) => state.expenses
   );
+
+  useEffect(() => {
+    const getExpenses = async () => {
+      setIsFetching(true);
+      try {
+        const expenses = await fetchExpenses();
+        dispatch(setExpenses(expenses));
+      } catch (error: any) {
+        setError(error.message);
+      }
+      setIsFetching(false);
+    };
+
+    getExpenses();
+  }, []);
 
   const today = new Date();
   const lastWeek = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -28,6 +45,12 @@ const RecentExpensesScreen = () => {
     .reduce((acc, item) => acc + item.amount, 0)
     .toFixed(2);
 
+  if (isFetching) {
+    return <Spinner />;
+  }
+  if (error && !isFetching) {
+    return <ErrorOvleray message={error} onConfirm={() => setError(null)} />;
+  }
   return (
     <View style={styles.container}>
       <ExpenseTopBar text={"Last 7 Days"} amount={totalExpenses} />
